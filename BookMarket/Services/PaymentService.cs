@@ -64,7 +64,7 @@ namespace BookMarket.Services
                 WMI_PAYMENT_NO = w1PaymentView.WMI_PAYMENT_NO,
                 WMI_MERCHANT_ID = w1PaymentView.WMI_MERCHANT_ID,
                 WMI_CURRENCY_ID = Convert.ToInt32(w1PaymentView.WMI_CURRENCY_ID),
-                //Кодировать UrlEncode не нужно, это делается в свойстве
+                //Переводить ToBase64 не нужно, это делается в методе MakeDescription
                 WMI_DESCRIPTION = w1PaymentView.WMI_DESCRIPTION,
                 WMI_PAYMENT_AMOUNT = Convert.ToDecimal(
                     w1PaymentView.WMI_PAYMENT_AMOUNT, CultureInfo.InvariantCulture),
@@ -253,7 +253,7 @@ namespace BookMarket.Services
             //MarketDbInitializer10.cs
             w1Payment.WMI_PAYMENT_NO = 
                 (w1Payments.Count > 0 ? w1Payments.Last().WMI_PAYMENT_NO + 1
-                : 114); //в publish установить 1
+                : 122); //в publish установить 1
 
             w1PaymentView = new W1PaymentView(w1Payment);
             w1Payment.WMI_SIGNATURE = GetSignature(w1PaymentView.dictionary);
@@ -300,6 +300,13 @@ namespace BookMarket.Services
                 return true; //подписи совпали
             //либо отправитель злоумышленник, либо ошибка программиста
             else return false; 
+        }
+
+        public decimal DecimalCounting(params decimal[] values)
+        {
+            decimal result = values.Sum();
+
+            return result;
         }
     }
 }

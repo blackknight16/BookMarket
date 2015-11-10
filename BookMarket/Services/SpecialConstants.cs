@@ -16,6 +16,6 @@ namespace BookMarket.Services
         public const string MERCHANT_KEY = "494a6876345c6f456c685f484d567a5455484772414d7456517b4e"; //секретный ключ сигнатуры
         public const string BASKET_PAY_SUBMIT_TEXT = "Перейти к оплате";
         public const Int32 WMI_CURRENCY_ID = 643; //рубли
-        public const Int32 EXPIRED_DAYS_COUNT = 1;//30; //число дней для истечения платежа
+        public const Int32 EXPIRED_DAYS_COUNT = 30; //число дней для истечения платежа
     }
 }

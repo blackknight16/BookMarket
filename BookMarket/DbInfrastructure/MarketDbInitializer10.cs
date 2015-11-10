@@ -21,7 +21,7 @@ namespace BookMarket.DbInfrastructure
             {
                 //Начало отсчета в W1Payments
                 //- Убрать в publish
-                dbContext.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('W1Payments', RESEED, 114)");
+                dbContext.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('W1Payments', RESEED, 122)");
                 //-
                 dbContext.Database.ExecuteSqlCommand(
                     "CREATE PROCEDURE [dbo].[GetAllCities] AS " +

@@ -258,7 +258,8 @@ namespace BookMarket.Controllers
                 .FindIndividualByUserProfileName(User.Identity.Name);
 
             w1Payment = new W1Payment();
-            w1Payment.WMI_PAYMENT_AMOUNT = basket.TotalAmount;
+            w1Payment.WMI_PAYMENT_AMOUNT = paymentService.DecimalCounting(
+                basket.TotalAmount, shop.BookDeliveryCost);
             w1Payment.WMI_DESCRIPTION = paymentService.MakeDescription(basket.Id);
             dbW1Payment = paymentService.MakeW1Payment(w1Payment);
             //добавление payment и w1Payment

@@ -22,6 +22,7 @@
         <th>Город</th>
         <th>Улица</th>
         <th>№ дома</th>
+        <th>Доставка, руб.</th>
     </tr>
     @foreach (ShopView shopView in Model)
     {
@@ -37,6 +38,7 @@
                 <span>@streetType.Name</span> <span>@street.Name</span
             </td>
             <td>@address.House</td>
+            <td>@shopView.BookDeliveryCost</td>
         </tr>
     }
 </table>
