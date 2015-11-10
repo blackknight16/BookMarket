@@ -332,7 +332,7 @@ namespace BookMarket.Controllers
         }
 
         //Метод, вызываемый при удачной оплате
-        public ActionResult SuccessPayment()
+        public W1ActionResult SuccessPayment()
         {
             PaymentService paymentService;
             string content;
@@ -345,24 +345,20 @@ namespace BookMarket.Controllers
             paymentService = new PaymentService();
             requestWorking = new RequestWorking();//this.Request);
 
-            formFields = requestWorking.GetFormDictionary(//this.Request.Params);
-                //this.Request.Cookies);
-                this.Request.Form);
-            //test
-            //--
+            formFields = requestWorking.GetFormDictionary(this.Request.Form);
 
             //Поиск и обновление присланного платежа
             if (!formFields.ContainsKey("WMI_PAYMENT_NO"))
-                return Content(paymentService.MakeResponseToW1("RETRY",
+                return new W1ActionResult(paymentService.MakeResponseToW1("RETRY",
                     "Отсутствует параметр WMI_PAYMENT_NO"));
             if (!formFields.ContainsKey("WMI_PAYMENT_NO"))
-                return Content(paymentService.MakeResponseToW1("RETRY",
+                return new W1ActionResult(paymentService.MakeResponseToW1("RETRY",
                     "Отсутствует параметр WMI_PAYMENT_NO"));
             if (!formFields.ContainsKey("WMI_ORDER_STATE"))
-                return Content(paymentService.MakeResponseToW1("RETRY",
+                return new W1ActionResult(paymentService.MakeResponseToW1("RETRY",
                     "Отсутствует параметр WMI_ORDER_STATE"));
             if (formFields["WMI_ORDER_STATE"].ToUpper() != "ACCEPTED")
-                return Content(paymentService.MakeResponseToW1("RETRY",
+                return new W1ActionResult(paymentService.MakeResponseToW1("RETRY",
                         "Неверное состояние " + formFields["WMI_ORDER_STATE"]));
 
 
@@ -371,7 +367,7 @@ namespace BookMarket.Controllers
             {
                 isAcceptedCheckSum = paymentService.CheckSignature(formFields);
                 if (!isAcceptedCheckSum)
-                    return Content(paymentService.MakeResponseToW1("RETRY",
+                    return new W1ActionResult(paymentService.MakeResponseToW1("RETRY",
                     "Неверная подпись " + formFields["WMI_SIGNATURE"]));
             }
             //OK, no comments
@@ -383,12 +379,12 @@ namespace BookMarket.Controllers
             payment.isPayed = true;
             paymentRepository.Edit(payment);
 
-            return Content(paymentService.MakeResponseToW1("OK",
+            return new W1ActionResult(paymentService.MakeResponseToW1("OK",
                     "Заказ #" + formFields["WMI_PAYMENT_NO"] + " оплачен!"));
         }
 
         //Метод, вызываемый при неудачной оплате
-        public ActionResult FailPayment()
+        public W1ActionResult FailPayment()
         {
             PaymentService paymentService;
             string content;
@@ -397,7 +393,7 @@ namespace BookMarket.Controllers
             //RETRY
             content = paymentService.MakeResponseToW1("RETRY",
                 "Server is not availables temporary");
-            return Content(content);
+            return new W1ActionResult(content);
         }
 
 
